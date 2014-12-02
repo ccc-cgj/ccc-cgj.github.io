@@ -1,10 +1,12 @@
+/* @pjs font="data/LiberationSans-Regular.ttf"; */
+
 char c = 'c';
 float dx = mouseX - pmouseX;
 void setup() {
   //a bunch of setting up
   size(1280, 720, P3D);
   //if (frame !=null) frame.setResizable(true);
-  textFont(createFont("LiberationSans-Regular.ttf", 200, true));
+  textFont(createFont("LiberationSans-Regular", 200, true));
   //textFont(createFont("Helvetica", 200, true));
   //textFont(createFont("calibri", 200, true));
   noStroke();
