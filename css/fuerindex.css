@@ -1,0 +1,30 @@
+body {
+}
+
+.sourcesans {
+	font-family: "Source Sans Pro";
+}
+
+.marginsep {
+	margin: 50px;
+}
+
+.whiteregular {
+	background-color: #ffffff;
+	color: #000000;
+}
+
+.whitehighlight {
+	background-color: #ffffff;
+	color: #ff3366;
+}
+
+.blackregular {
+	background-color: #000000;
+	color: #ffffff;
+}
+
+.blackhighlight {
+	background-color: #000000;
+	color: #33ffff;
+}
