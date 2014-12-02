@@ -16,7 +16,7 @@ void setup() {
 void draw() {
   //background
   //background(127 * sin(radians(frameCount)) + 127);
-  background(255, 0, 0);
+  background(255);
 
   //setting delta mouseX
   dx = mouseX - pmouseX;
