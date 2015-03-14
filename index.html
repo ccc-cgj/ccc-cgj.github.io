@@ -7,21 +7,173 @@
 		<link rel="stylesheet" type="text/css" href="css/fuerindex.css">
 
 		<script src="js/jquery-2.1.1.min.js"></script>
-		<script src="js/fuerindex.js"></script>
+		<script src="js/processing.min.js"></script>
+		<script type="text/processing" data-processing-target="main00">
+			class v2 {
+				float x, y;
+				float vx, vy;
+
+				v2(float cx, float cy) {
+					x = cx;
+					y = cy;
+					vx = 0;
+					vy = 0;
+				}
+
+				v2 getNormalized() {
+					return new v2(x / dist(0, 0, x, y), y / dist(0, 0, x, y));
+				}
+			}
+
+			ArrayList<ArrayList<v2>> worms;
+			ArrayList<float> speeds;
+			ArrayList<float> baserads;
+
+			// constants
+			int oto = 5;
+			int tot = 10;
+
+			int mode = 0;
+
+			void setup() {
+				size(1000, 550);
+				background(255);
+
+				worms = new ArrayList<ArrayList<v2>>();
+				speeds = new ArrayList<float>();
+				baserads = new ArrayList<float>();
+
+				for (int ti = 0; ti < oto; ti++) {
+					ArrayList<v2> worm = new ArrayList<v2>();
+
+					for (int it = 0; it < tot; it++) {
+						worm.add(new v2(width / 2 + cos(it) * it * 10, height / 2 + sin(it) * it * 10));
+					}
+
+					worms.add(worm);
+					speeds.add(5.0f + random(10.0f));
+					baserads.add(5.0f + random(15.0f));
+				}
+			}
+
+			void draw() {
+				for (int h = 0; h < worms.size(); h++) {
+					ArrayList<v2> worm = worms.get(h);
+					float speed = speeds.get(h);
+					float baserad = baserads.get(h);
+
+					for (int i = 0; i < worm.size(); i++) {
+						float rad = baserad + baserad / 4.0f * sin(float(second()) + (float)i / worm.size());
+
+						v2 cv = worm.get(i);
+						if (mode == 0) {
+							stroke(0);
+							fill(255);
+							ellipse(cv.x, cv.y, rad * 2, rad * 2);
+						}
+
+						cv.x += cv.vx;
+						cv.y += cv.vy;
+
+						float f = 0.5f;
+
+						cv.vx *= (1 - f);
+						cv.vy *= (1 - f);
+						if (i == 0) {
+							cv.vx += new v2(mouseX - cv.x, mouseY - cv.y).getNormalized().x * f * speed;
+							cv.vy += new v2(mouseX - cv.x, mouseY - cv.y).getNormalized().y * f * speed;
+						} else {
+							v2 pv = worm.get(i - 1);
+
+							cv.vx += new v2(pv.x - cv.x, pv.y - cv.y).getNormalized().x * f * speed;
+							cv.vy += new v2(pv.x - cv.x, pv.y - cv.y).getNormalized().y * f * speed;
+
+							if (mode == 1) {
+								stroke(0, 64);
+								line(cv.x, cv.y, pv.x, pv.y);
+							}
+						}
+					}
+				}
+			}
+
+			void keyPressed() {
+				if (key == ' ') { 
+					mode++;
+					mode %= 2;
+				} else if (key == 'c') {
+					background(255);
+				}
+			}
+		</script>
+
+		<!-- unselectability from http://stackoverflow.com/questions/16805684/javascript-disable-text-select -->
+		<style>
+
+			body {
+				cursor: default;
+			}
+
+			#footer {
+				-moz-box-sizing: border-box;
+				box-sizing: border-box;
+
+				position: absolute;
+				top: 10%;
+				left: 0px;
+				width: 150px;
+				height: 80%;
+				text-align: center;
+				vertical-align: middle;
+				background-color: #eeeeee;
+				padding: 8px;
+
+				box-shadow: 0px 0px 10px 5px #bbbbbb;
+
+				-webkit-touch-callout: none;
+				-webkit-user-select: none;
+				-khtml-user-select: none;
+				-moz-user-select: none;
+				-ms-user-select: none;
+				user-select: none;
+			}
+
+			.sidebaritem {
+				font-size: 32px;
+			}
+
+		</style>
 	</head>
 
-	<body class="sourcesans" style="height:500px">
-		<div class="whitehighlight" style="height:50%">
-			<div class="marginsep">
-				<h1>ccc</h1>
-				<p>creative coding community</p>
-			</div>
+	<body>
+		<div id="div00" style="text-align: center;">
+			<canvas id="main00" style="width: 100%; height: 100%"></canvas>
+
+			<p>
+				get <b><i>in focus</i></b> by clicking in the chaotic display. hit <b><i>space</i></b> to change mode. hit <b><i>c</i></b> to clear canvas.<br />
+				<b><i>tip: try wiggling up and down!</i></b>
+			</p>
 		</div>
-		<div class="blackhighlight" style="height:50%">
-			<div class="marginsep">
-				<h1>cgj</h1>
-				<p>creative galloping junta</p>
-			</div>
+
+		<div id="footer">
+			<p>
+				<span style="font-size: 48px;"><b><i>ccc</i></b></span><br />
+				presents:<br />
+				<br />
+				<span id="to00" class="sidebaritem">[0]</span><br />
+				<br />
+				<span id="to01" class="sidebaritem">[1]</span><br />
+				<br />
+				<span id="to02" class="sidebaritem">[2]</span><br />
+				<br />
+				<span id="to03" class="sidebaritem">[3]</span><br />
+				<br />
+				<span id="to04" class="sidebaritem">[4]</span><br />
+				<br />
+				and <span id="away">seriousness</span>.
+			</p>
 		</div>
 	</body>
+
+	<script src="js/fuerindex.js"></script>
 </html>
