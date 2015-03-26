@@ -30,7 +30,7 @@
 			ArrayList<float> baserads;
 
 			// constants
-			int oto = 5;
+			int oto = 10;
 			int tot = 10;
 
 			int mode = 0;
@@ -93,6 +93,13 @@
 								line(cv.x, cv.y, pv.x, pv.y);
 							}
 						}
+
+						if (mode == 2 && h > 0) {
+							v2 lv = worms.get(h - 1).get(i);
+
+							stroke(0, 64);
+							line(cv.x, cv.y, lv.x, lv.y);
+						}
 					}
 				}
 			}
@@ -100,7 +107,7 @@
 			void keyPressed() {
 				if (key == ' ') { 
 					mode++;
-					mode %= 2;
+					mode %= 3;
 				} else if (key == 'c') {
 					background(255);
 				}
@@ -170,7 +177,7 @@
 				<br />
 				<span id="to04" class="sidebaritem">[4]</span><br />
 				<br />
-				and <span id="away">seriousness</span>.
+				and <span id="away"><a href="solemnities/utter.html">seriousness</a></span>.
 			</p>
 		</div>
 	</body>
